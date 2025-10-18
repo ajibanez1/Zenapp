@@ -38,10 +38,30 @@ document.addEventListener('DOMContentLoaded', () => {
         ];
 
         switch (priorityPlan) {
+
+
             case '50-30-20':
                 categories = ["Needs (50%)", "Wants (30%)", "Savings (20%)"];
                 data = [monthlyAmount * 0.5, monthlyAmount * 0.3, monthlyAmount * 0.2];
                 chartTitle = '50/30/20 Rule Distribution';
+                backgroundColors = ['#8b5cf6', '#ec4899', '#10b981'];
+                break;
+            case '90-5-5':
+                categories = ["Needs (90%)", "Wants (5%)", "Savings (5%)"];
+                data = [monthlyAmount * 0.9, monthlyAmount * 0.05, monthlyAmount * 0.05];
+                chartTitle = '90/5/5 Rule Distribution';
+                backgroundColors = ['#8b5cf6', '#ec4899', '#10b981'];
+                break;
+            case '60-30-10':
+                categories = ["Needs (60%)", "Wants (30%)", "Savings (10%)"];
+                data = [monthlyAmount * 0.6, monthlyAmount * 0.3, monthlyAmount * 0.1];
+                chartTitle = '90/5/5 Rule Distribution';
+                backgroundColors = ['#8b5cf6', '#ec4899', '#10b981'];
+                break;
+            case'10-45-35':
+                categories = ["Needs (10%)", "Wants (45%)", "Savings (35%)"];
+                data = [monthlyAmount * 0.10, monthlyAmount * 0.45, monthlyAmount * 0.35];
+                chartTitle = '90/5/5 Rule Distribution';
                 backgroundColors = ['#8b5cf6', '#ec4899', '#10b981'];
                 break;
             case 'savings-focused':
