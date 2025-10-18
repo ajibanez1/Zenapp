@@ -6,46 +6,70 @@
     <title>ZenApp</title>
     <link href="css/tailwind.css" rel="stylesheet">
 </head>
-<body>
-    <header>
-        <h1> 💰 ZenApp 💰</h1>
-        <h5> your budget personal assistant </h5>
+<body class="body-styles">
+    <header class="header-styles">
+        <div class="container-styles">
+            <h1 class="title">💰 ZenApp</h1>
+            <h5 class="subtitle">Your Personal Budgeting Assistant</h5>
+        </div>
     </header>
 
-    <main>
-        <div class="m-4">
-            // Radio Buttons for Income Frequency
-            <fieldset class="mb-4">
-                <legend class="block text-sm font-medium text-gray-700">Income Frequency:</legend>
+    <main class="main-container">
+        <div class="form-container">
+            <h2 class="form-title">Plan Your Budget</h2>
+            <fieldset class="form-fieldset">
+                <legend class="form-legend">Income Frequency:</legend>
                 <div class="mt-2 space-y-2">
                     <div class="flex items-center">
-                        <input id="monthly" name="income-frequency" type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
-                        <label for="monthly" class="ml-3 block text-sm font-medium text-gray-700">Monthly Income</label>
+                        <input id="monthly" name="income-frequency" type="radio" class="radio-input">
+                        <label for="monthly" class="radio-label">Monthly Income</label>
                     </div>
                     <div class="flex items-center">
-                        <input id="yearly" name="income-frequency" type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
-                        <label for="yearly" class="ml-3 block text-sm font-medium text-gray-700">Yearly Income</label>
+                        <input id="yearly" name="income-frequency" type="radio" class="radio-input">
+                        <label for="yearly" class="radio-label">Yearly Income</label>
                     </div>
                 </div>
             </fieldset>
-            
-            // Text Field for Amount
-            <div>
-                <label for="textfield" class="block text-sm font-medium text-gray-700">Amount:</label>
+
+            <div class="mt-4">
+                <label for="priority-plan" class="form-label">Budgeting Priority:</label>
             </div>
             <div>
-                <input type="text" name="textfield" id="textfield" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <select id="priority-plan" class="form-input">
+                    <option value="even" selected>Even Distribution</option>
+                    <option value="50-30-20">50/30/20 Rule (Needs/Wants/Savings)</option>
+                    <option value="savings-focused">Savings-Focused</option>
+                </select>
+            </div>
+            
+            <div class="mt-4">
+                <label for="amount" class="form-label">Amount:</label>
+            </div>
+            <div>
+                <input type="text" name="amount" id="amount" class="form-input">
             </div>
 
-            // Repeat for Expenses
-            <div>
-                <label for="textfield" class="block text-sm font-medium text-gray-700">Expenses:</label>
+            <div class="mt-4">
+                <label for="expenses" class="form-label">Monthly Expenses:</label>
             </div>
             <div>
-                <input type="text" name="textfield" id="textfield" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <input type="text" name="expenses" id="expenses" class="form-input" placeholder="$0.00">
+            </div>
+
+            <div class="mt-6">
+                <button id="ai-help" class="ai-button">
+                    Get AI Spending Help
+                </button>
             </div>
         </div>
+
+        <div class="chart-container">
+            <canvas id="myPieChart"></canvas>
+        </div>
     </main>
-    
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+    <script src="js/main.js"></script>
 </body>
 </html>
