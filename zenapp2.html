@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ZenApp</title>
-    <link href="css/tailwind.css" rel="stylesheet">
+    <link rel="stylesheet" href="tailwind.css">
 </head>
 <body class="body-styles">
     <header class="header-styles">
@@ -21,7 +21,7 @@
                 <legend class="form-legend">Income Frequency:</legend>
                 <div class="mt-2 space-y-2">
                     <div class="flex items-center">
-                        <input id="monthly" name="income-frequency" type="radio" class="radio-input">
+                        <input id="monthly" name="income-frequency" type="radio" class="radio-input" checked>
                         <label for="monthly" class="radio-label">Monthly Income</label>
                     </div>
                     <div class="flex items-center">
@@ -37,7 +37,10 @@
             <div>
                 <select id="priority-plan" class="form-input">
                     <option value="even" selected>Even Distribution</option>
+                    <option value="10-45-35">10/45/35 Rule (Needs/Wants/Savings)</option>
                     <option value="50-30-20">50/30/20 Rule (Needs/Wants/Savings)</option>
+                    <option value="60-30-10"> 60/30/10 Rule (Needs/Wants/Saving)</option>
+                    <option value="90-5-5">90/5/5 Rule (Needs/Wants/Savings)</option>
                     <option value="savings-focused">Savings-Focused</option>
                 </select>
             </div>
@@ -64,12 +67,12 @@
         </div>
 
         <div class="chart-container">
-            <canvas id="myPieChart"></canvas>
+            <canvas id="myPieChart" style="min-height:320px; width:100%; height:320px;"></canvas>
         </div>
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
-    <script src="js/main.js"></script>
+    <script src="./main.js"></script>
 </body>
 </html>
