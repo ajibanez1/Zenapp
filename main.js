@@ -3,34 +3,62 @@ Chart.register(ChartDataLabels);
 
 document.addEventListener('DOMContentLoaded', () => {
     const amountInput = document.getElementById('amount');
-    const expensesInput = document.getElementById('expenses');
     const priorityPlanSelect = document.getElementById('priority-plan');
     const yearlyRadio = document.getElementById('yearly');
     const monthlyRadio = document.getElementById('monthly');
+    const expenseForm = document.getElementById('expense-form');
+    const expenseDescriptionInput = document.getElementById('expense-description');
+    const expenseAmountInput = document.getElementById('expense-amount');
+    const expenseListContainer = document.getElementById('expense-list-container');
+
+    let expenses = [];
+
+    const renderExpenses = () => {
+        expenseListContainer.innerHTML = '';
+        if (expenses.length === 0) {
+            expenseListContainer.innerHTML = '<p class="text-center text-gray-500">No expenses added yet.</p>';
+        } else {
+            expenses.forEach(expense => {
+                const expenseEl = document.createElement('div');
+                expenseEl.className = 'expense-list-item';
+                expenseEl.innerHTML = `
+                    <span class="expense-item-text">${expense.description}</span>
+                    <div class="flex items-center gap-4">
+                        <span class="expense-item-amount">-$${expense.amount.toFixed(2)}</span>
+                        <button class="remove-expense-button" data-id="${expense.id}">&times;</button>
+                    </div>
+                `;
+                expenseListContainer.appendChild(expenseEl);
+            });
+        }
+    };
 
     const updateChart = () => {
         const isYearly = yearlyRadio.checked;
         const priorityPlan = priorityPlanSelect.value;
         const totalAmount = parseFloat(amountInput.value) || 0;
-        const totalExpenses = parseFloat(expensesInput.value) || 0;
+        const totalExpenses = expenses.reduce((sum, exp) => sum + exp.amount, 0);
 
         if (totalAmount <= 0) {
-            // If no amount, render an empty state
             if (window.myPieChart instanceof Chart) {
                 window.myPieChart.destroy();
             }
             return;
         }
 
-        if (totalAmount < totalExpenses) {
-            // Optionally handle this case, e.g., show a message
-            return;
-        }
-
         const netAmount = totalAmount - totalExpenses;
         const monthlyAmount = isYearly ? netAmount / 12 : netAmount;
 
-        let categories;
+        if (netAmount < 0) {
+            if (window.myPieChart instanceof Chart) {
+                window.myPieChart.destroy();
+            }
+            // Optionally show a message that expenses exceed income
+            return;
+        }
+
+        const categories = ["Housing", "Transportation", "Food", "Utilities", "Entertainment", "Savings"];
+        let percentages;
         let data;
         let chartTitle = `Distribution of ${isYearly ? 'Yearly' : 'Monthly'} Net Amount`;
         let backgroundColors = [
@@ -38,43 +66,23 @@ document.addEventListener('DOMContentLoaded', () => {
         ];
 
         switch (priorityPlan) {
-
-
-            case '50-30-20':
-                categories = ["Needs (50%)", "Wants (30%)", "Savings (20%)"];
-                data = [monthlyAmount * 0.5, monthlyAmount * 0.3, monthlyAmount * 0.2];
-                chartTitle = '50/30/20 Rule Distribution';
-                backgroundColors = ['#8b5cf6', '#ec4899', '#10b981'];
-                break;
-            case '90-5-5':
-                categories = ["Needs (90%)", "Wants (5%)", "Savings (5%)"];
-                data = [monthlyAmount * 0.9, monthlyAmount * 0.05, monthlyAmount * 0.05];
-                chartTitle = '90/5/5 Rule Distribution';
-                backgroundColors = ['#8b5cf6', '#ec4899', '#10b981'];
-                break;
-            case '60-30-10':
-                categories = ["Needs (60%)", "Wants (30%)", "Savings (10%)"];
-                data = [monthlyAmount * 0.6, monthlyAmount * 0.3, monthlyAmount * 0.1];
-                chartTitle = '90/5/5 Rule Distribution';
-                backgroundColors = ['#8b5cf6', '#ec4899', '#10b981'];
-                break;
-            case'10-45-35':
-                categories = ["Needs (10%)", "Wants (45%)", "Savings (35%)"];
-                data = [monthlyAmount * 0.10, monthlyAmount * 0.45, monthlyAmount * 0.35];
-                chartTitle = '90/5/5 Rule Distribution';
-                backgroundColors = ['#8b5cf6', '#ec4899', '#10b981'];
+            case 'balanced':
+                // Housing: 35%, Transportation: 15%, Food: 15%, Utilities: 10%, Entertainment: 10%, Savings: 15%
+                percentages = [0.35, 0.15, 0.15, 0.10, 0.10, 0.15];
+                data = percentages.map(p => monthlyAmount * p);
+                chartTitle = 'Balanced Plan Distribution';
                 break;
             case 'savings-focused':
-                categories = ["Savings (50%)", "Housing (20%)", "Food (15%)", "Utilities (10%)", "Other (5%)"];
-                data = [monthlyAmount * 0.5, monthlyAmount * 0.2, monthlyAmount * 0.15, monthlyAmount * 0.1, monthlyAmount * 0.05];
+                // Housing: 25%, Transportation: 10%, Food: 10%, Utilities: 5%, Entertainment: 5%, Savings: 45%
+                percentages = [0.25, 0.10, 0.10, 0.05, 0.05, 0.45];
+                data = percentages.map(p => monthlyAmount * p);
                 chartTitle = 'Savings-Focused Distribution';
-                backgroundColors = ['#10b981', '#8b5cf6', '#f59e0b', '#3b82f6', '#6366f1'];
                 break;
             case 'even':
             default:
-                categories = ["Housing", "Transportation", "Food", "Utilities", "Entertainment", "Savings"];
                 const distributedAmount = monthlyAmount / categories.length;
                 data = categories.map(() => distributedAmount);
+                chartTitle = 'Even Distribution';
                 break;
         }
 
@@ -149,12 +157,35 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    // Initial chart render
+    expenseForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const description = expenseDescriptionInput.value;
+        const amount = parseFloat(expenseAmountInput.value);
+
+        if (description && amount > 0) {
+            expenses.push({ id: Date.now(), description, amount });
+            expenseDescriptionInput.value = '';
+            expenseAmountInput.value = '';
+            renderExpenses();
+            updateChart();
+        }
+    });
+
+    expenseListContainer.addEventListener('click', (e) => {
+        if (e.target.classList.contains('remove-expense-button')) {
+            const id = parseInt(e.target.getAttribute('data-id'));
+            expenses = expenses.filter(exp => exp.id !== id);
+            renderExpenses();
+            updateChart();
+        }
+    });
+
+    // Initial renders
+    renderExpenses();
     updateChart();
 
-    // Add event listeners to all inputs to update the chart automatically
+    // Add event listeners to update the chart automatically
     amountInput.addEventListener('input', updateChart);
-    expensesInput.addEventListener('input', updateChart);
     priorityPlanSelect.addEventListener('change', updateChart);
     yearlyRadio.addEventListener('change', updateChart);
     monthlyRadio.addEventListener('change', updateChart);
