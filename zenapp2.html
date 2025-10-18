@@ -32,25 +32,21 @@
             </fieldset>
 
             <div class="mt-4">
-                <label for="priority-plan" class="form-label">Budgeting Priority:</label>
-            </div>
-            <div>
-                <select id="priority-plan" class="form-input">
-                    <option value="even" selected>Even Distribution</option>
-                    <option value="balanced">Balanced Plan</option>
-                    <option value="savings-focused">Savings-Focused</option>
-                </select>
-            </div>
-            
-            <div class="mt-4">
-                <label for="amount" class="form-label">Amount:</label>
-            </div>
-            <div>
-                <input type="text" name="amount" id="amount" class="form-input">
+                <label for="amount" class="form-label">Total Amount ($)</label>
+                <input type="number" id="amount" class="form-input" placeholder="e.g., 50000">
             </div>
 
             <div class="mt-4">
-                <h3 class="form-label">Add Expenses</h3>
+                <label for="priority-plan" class="form-label">Budgeting Priority</label>
+                <select id="priority-plan" class="form-input">
+                    <option value="even">Even Distribution</option>
+                    <option value="balanced">Balanced Plan</option>
+                    <option value="savings-focused">Savings-Focused Plan</option>
+                </select>
+            </div>
+
+            <div class="mt-6">
+                <h3 class="form-legend">Monthly Expenses</h3>
                 <form id="expense-form" class="expense-form">
                     <input type="text" id="expense-description" placeholder="Expense Name" class="form-input flex-grow">
                     <input type="number" id="expense-amount" placeholder="$0.00" class="form-input w-32" step="0.01">
@@ -74,8 +70,21 @@
         </div>
     </main>
 
+    <!-- AI Interaction Modal -->
+    <div id="ai-modal" class="modal-overlay hidden">
+        <div class="modal-container">
+            <h3 class="modal-title">AI Budgeting Assistant</h3>
+            <p class="modal-description">Tell me how you'd like to adjust your budget. For example: "Set Savings to 40% and Housing to 25%."</p>
+            <textarea id="ai-input" class="modal-textarea" placeholder="Enter your command..."></textarea>
+            <div class="modal-actions">
+                <button id="ai-submit" class="modal-button-submit">Update Budget</button>
+                <button id="ai-cancel" class="modal-button-cancel">Cancel</button>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
-    <script src="js/main.js"></script>
+    <script type="module" src="js/main.js"></script>
 </body>
 </html>
