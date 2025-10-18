@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ZenApp</title>
-    <link rel="stylesheet" href="tailwind.css">
+    <link href="css/tailwind.css" rel="stylesheet">
 </head>
 <body class="body-styles">
     <header class="header-styles">
@@ -21,7 +21,7 @@
                 <legend class="form-legend">Income Frequency:</legend>
                 <div class="mt-2 space-y-2">
                     <div class="flex items-center">
-                        <input id="monthly" name="income-frequency" type="radio" class="radio-input" checked>
+                        <input id="monthly" name="income-frequency" type="radio" class="radio-input">
                         <label for="monthly" class="radio-label">Monthly Income</label>
                     </div>
                     <div class="flex items-center">
@@ -37,10 +37,7 @@
             <div>
                 <select id="priority-plan" class="form-input">
                     <option value="even" selected>Even Distribution</option>
-                    <option value="10-45-35">10/45/35 Rule (Needs/Wants/Savings)</option>
-                    <option value="50-30-20">50/30/20 Rule (Needs/Wants/Savings)</option>
-                    <option value="60-30-10"> 60/30/10 Rule (Needs/Wants/Saving)</option>
-                    <option value="90-5-5">90/5/5 Rule (Needs/Wants/Savings)</option>
+                    <option value="balanced">Balanced Plan</option>
                     <option value="savings-focused">Savings-Focused</option>
                 </select>
             </div>
@@ -53,10 +50,16 @@
             </div>
 
             <div class="mt-4">
-                <label for="expenses" class="form-label">Monthly Expenses:</label>
+                <h3 class="form-label">Add Expenses</h3>
+                <form id="expense-form" class="expense-form">
+                    <input type="text" id="expense-description" placeholder="Expense Name" class="form-input flex-grow">
+                    <input type="number" id="expense-amount" placeholder="$0.00" class="form-input w-32" step="0.01">
+                    <button type="submit" class="add-expense-button">+</button>
+                </form>
             </div>
-            <div>
-                <input type="text" name="expenses" id="expenses" class="form-input" placeholder="$0.00">
+
+            <div id="expense-list-container" class="mt-4">
+                <!-- Expenses will be listed here by JavaScript -->
             </div>
 
             <div class="mt-6">
@@ -67,12 +70,12 @@
         </div>
 
         <div class="chart-container">
-            <canvas id="myPieChart" style="min-height:320px; width:100%; height:320px;"></canvas>
+            <canvas id="myPieChart"></canvas>
         </div>
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
-    <script src="./main.js"></script>
+    <script src="js/main.js"></script>
 </body>
 </html>
