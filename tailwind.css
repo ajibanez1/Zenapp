@@ -132,6 +132,62 @@ body {
     height: auto;
 }
 
+.expense-form {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.add-expense-button {
+    background-color: #10b981;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 2.5rem;
+    height: 2.5rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    flex-shrink: 0;
+}
+
+.add-expense-button:hover {
+    background-color: #059669;
+}
+
+.expense-list-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f9fafb;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.expense-item-text {
+    font-weight: 500;
+}
+
+.expense-item-amount {
+    font-weight: 600;
+    color: #ef4444;
+}
+
+.remove-expense-button {
+    background-color: #ef4444;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 1.5rem;
+    height: 1.5rem;
+    font-size: 1rem;
+    cursor: pointer;
+    line-height: 1.5rem;
+    text-align: center;
+}
+
 /* Flexbox and margin utilities */
 .flex { display: flex; }
 .items-center { align-items: center; }
